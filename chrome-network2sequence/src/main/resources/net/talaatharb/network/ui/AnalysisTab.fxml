@@ -138,10 +138,11 @@
                                     </TitledPane>
                                     <TableView maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
                                       <columns>
-                                        <TableColumn prefWidth="75.0" text="#" />
-                                        <TableColumn prefWidth="75.0" text="✓" />
-                                          <TableColumn prefWidth="75.0" text="Time" />
-                                          <TableColumn prefWidth="75.0" text="event" />
+                                        <TableColumn prefWidth="27.20001369714737" text="✓" />
+                                          <TableColumn prefWidth="123.1999740600586" text="Time" />
+                                        <TableColumn prefWidth="75.0" text="Source" />
+                                          <TableColumn prefWidth="75.0" text="Type" />
+                                          <TableColumn prefWidth="75.0" text="Details" />
                                       </columns>
                                     </TableView>
                                  </children>

@@ -1,7 +1,9 @@
 package net.talaatharb.network.ui.controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -15,6 +17,11 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import net.talaatharb.network.config.HelperBeans;
+import net.talaatharb.network.dtos.TrafficFileRoot;
+import net.talaatharb.network.models.EventModel;
+import net.talaatharb.network.service.TrafficFileAnalyzerService;
+import net.talaatharb.network.service.TrafficFileLoaderService;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -52,6 +59,13 @@ public class AnalysisTabController implements Initializable {
 
 	private String fileLocation;
 
+	private final TrafficFileLoaderService trafficFileLoader;
+	private final TrafficFileAnalyzerService trafficFileAnalyzer;
+
+	public AnalysisTabController() {
+		trafficFileLoader = HelperBeans.buildTrafficFileLoader(HelperBeans.buildJsonObjectMapper());
+		trafficFileAnalyzer = HelperBeans.buildTrafficFileAnalizer();
+	}
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -66,6 +80,15 @@ public class AnalysisTabController implements Initializable {
 		fileLocation = selectedFile.getAbsolutePath();
 
 		log.info("Analysing: " + fileLocation);
+
+		TrafficFileRoot root = null;
+		try {
+			root = trafficFileLoader.loadTrafficeFile(selectedFile);
+			final List<EventModel> events = trafficFileAnalyzer.analyze(root);
+			log.info("Loaded: {} events", events.size());
+		} catch (final IOException e) {
+			log.error(e.getMessage());
+		}
 	}
 
 	@FXML
